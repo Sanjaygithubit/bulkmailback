@@ -5,11 +5,13 @@ const Mail = require("../models/Mail");
 const router = express.Router();
 
 router.post("/send", async (req, res) => {
-  const { subject, body, recipients } = req.body;
-
   try {
+    const { subject, body, recipients } = req.body;
+
     const transporter = nodemailer.createTransport({
-      service: "gmail",
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false,
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
@@ -30,11 +32,13 @@ router.post("/send", async (req, res) => {
       status: "Sent",
     });
 
-    res.status(200).json({ message: "Emails sent successfully" });
+    res.status(200).json({ message: "Mail sent successfully" });
   } catch (error) {
-    res.status(500).json({ message: "Failed to send emails" });
+    console.error("MAIL ERROR:", error);
+    res.status(500).json({ message: error.message });
   }
 });
+
 
 router.get("/history", async (req, res) => {
   const mails = await Mail.find().sort({ createdAt: -1 });
