@@ -20,3 +20,6 @@ app.listen(process.env.PORT, () =>
   console.log(`Server running`)
 );
 
+app.get("/", (req, res) => {
+  res.send("Bulk Mail Backend is Running 🚀");
+});
