@@ -23,3 +23,6 @@ app.listen(process.env.PORT, () =>
 app.get("/", (req, res) => {
   res.send("Bulk Mail Backend is Running 🚀");
 });
+app.use(cors({
+  origin: "https://bulkmailfront.vercel.app/"
+}));
